@@ -21,6 +21,6 @@ public class BaseEntity {
 
     @UpdateTimestamp
     @Column(insertable = false) //입력할 때 관여 안 함
-    private LocalDate updatedTime;
+    private LocalDateTime updatedTime;
 
 }
