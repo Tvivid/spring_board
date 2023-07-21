@@ -5,7 +5,7 @@
     <title>update</title>
 </head>
 <body>
-<form action="/board/update" method="post" name="updateForm">
+<form action="/board/update" method="post" name="updateForm"> <!--/board/update 주소로 post방식으로 업데이트 된다.-->
     <input type="hidden" name="id" th:value="${boardUpdate.id}">
     writer: <input type="text" name="boardWriter" th:value="${boardUpdate.boardWriter}" readonly> <br>
     pass: <input type="text" name="boardPass" id="boardPass"> <br>
