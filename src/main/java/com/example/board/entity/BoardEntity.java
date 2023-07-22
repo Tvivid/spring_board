@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 //DB의 테이블 역할을 하는 클래스
 //service와 repository에서만 사용한다는 설정
@@ -33,6 +35,12 @@ public class BoardEntity extends BaseEntity{
     @Column
     private int boardHits;
 
+    private int fileAttached; // 1 or 0
+
+                //BoardFileEntity의 이름과 맞춰줌
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<BoardFileEntity> boardFileEntityList = new ArrayList<>(); //board 하나에 boardfile 여러개가 올 수 있음
+
     public static  BoardEntity toSaveEntity(BoardDTO boardDTO){
         BoardEntity boardEntity = new BoardEntity();
         boardEntity.setBoardWriter(boardDTO.getBoardWriter());
@@ -40,6 +48,7 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardHits(0);
+        boardEntity.setFileAttached(0); //파일 없음
         return boardEntity;
     }
 
@@ -52,6 +61,17 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardHits(boardDTO.getBoardHits());
+        return boardEntity;
+    }
+
+    public static BoardEntity toSaveFileEntity(BoardDTO boardDTO) {
+        BoardEntity boardEntity = new BoardEntity();
+        boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+        boardEntity.setBoardPass(boardDTO.getBoardPass());
+        boardEntity.setBoardTitle(boardDTO.getBoardTitle());
+        boardEntity.setBoardContents(boardDTO.getBoardContents());
+        boardEntity.setBoardHits(0);
+        boardEntity.setFileAttached(1); //파일 없음
         return boardEntity;
     }
 }
